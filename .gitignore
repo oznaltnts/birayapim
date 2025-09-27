@@ -1,1 +1,4 @@
 .idea/
+config-server/target/
+service-registry/target/
+common-lib/target/

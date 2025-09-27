@@ -1,0 +1,44 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  config.activate.on-profile: default
+  datasource:
+    url: jdbc:mysql://localhost:3306/micro_db
+    username: root
+    password: kafamysql
+
+cloud:
+  config:
+    server:
+      native: # Default: native (local directory). Production: prefer Git (commented below)
+        search-locations: file:./config-repo, classpath:/config
+        # git:
+        # uri: https://github.com/your-org/config-repo
+        # search-paths: '{application}'
+
+eureka: # Eureka registration (optional, works if service-registry çalışıyorsa)
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+management: # Actuator endpoints exposure (health, info, env helpful for config debugging)
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,configprops
+  endpoint:
+    health:
+      show-details: always
+
+logging: # Logging: sufficient for troubleshooting but not noisy
+  level:
+    org.springframework.cloud.config.server: INFO
+    org.springframework.web: INFO
+
+
+# When using native repo, see ./config-repo/ (project root) for sample files
