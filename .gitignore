@@ -1,1 +1,4 @@
 .idea/
+recipe-service/target/
+service-registry/target/
+api-gateway/target/
