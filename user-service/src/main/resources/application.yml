@@ -1,0 +1,88 @@
+# Configuration for User Service
+# Server configuration
+server:
+  port: 8081  # User service port
+  servlet:
+    context-path: /  # Root context path
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices_db?useSSL=false&serverTimezone=UTC  # MySQL connection
+    username: root
+    password: root  # Change in production
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # HikariCP connection pool configuration
+    hikari:
+      maximum-pool-size: 20                 # Maximum number of connections in pool
+      minimum-idle: 5                       # Minimum number of idle connections
+      idle-timeout: 300000                  # 5 minutes idle timeout
+      max-lifetime: 1200000                # 20 minutes max connection lifetime
+      connection-timeout: 20000             # 20 seconds connection timeout
+      leak-detection-threshold: 60000       # 60 seconds leak detection
+      pool-name: UserServiceHikariCP
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Validate schema on startup
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # MySQL 8 dialect
+        format_sql: true                    # Format SQL queries in logs
+        use_sql_comments: true              # Include comments in SQL
+        jdbc:
+          batch_size: 20                    # Batch processing for better performance
+          fetch_size: 50                    # JDBC fetch size
+        order_inserts: true                 # Order inserts for better batching
+        order_updates: true                 # Order updates for better batching
+        batch_versioned_data: true          # Batch versioned data
+    # Database initialization
+    defer-datasource-initialization: false  # Don't defer datasource initialization
+  # Transaction management
+  transaction:
+    rollback-on-commit-failure: true        # Rollback on commit failure
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka  # Eureka Server URL
+    fetch-registry: true                          # Fetch service registry
+    register-with-eureka: true                    # Register this service
+    registry-fetch-interval-seconds: 30          # How often to fetch registry
+  instance:
+    prefer-ip-address: true                       # Use IP address instead of hostname
+    lease-renewal-interval-in-seconds: 10         # Heartbeat interval
+    lease-expiration-duration-in-seconds: 30     # When Eureka considers service down
+    metadata-map:                                 # Additional metadata
+      version: 1.0.0
+      description: "User Management Service with CRUD operations"
+      tags: "user,authentication,crud,mysql"
+
+# SpringDoc OpenAPI configuration for Swagger UI
+springdoc:
+  api-docs:
+    path: /v3/api-docs                      # OpenAPI JSON endpoint
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html                  # Swagger UI path
+    enabled: true
+    operations-sorter: method               # Sort operations by HTTP method
+    tags-sorter: alpha                      # Sort tags alphabetically
+    doc-expansion: none                     # Don't expand docs by default
+    disable-swagger-default-url: true      # Disable default Swagger URL
+  # API documentation configuration
+  info:
+    title: "User Service API"
+    description: "REST API for user management operations including registration, authentication, and CRUD"
+    version: "1.0.0"
+    contact:
+      name: "Ozan Bey"
+      email: "ozan@example.com"
+    license:
+      name: "MIT License"
+
