@@ -1,0 +1,39 @@
+# Server configuration
+server:
+  port: 8080
+
+# Application name
+spring:
+  application:
+    name: api-gateway
+  # Spring Cloud Gateway configuration
+  cloud:
+    gateway:
+      # enable discovery-based route generation (auto create routes for services)
+      discovery:
+        locator:
+          enabled: true # Auto-create routes from Eureka services
+          lower-case-service-id: true # Use lowercase service names in URLs
+      # Global CORS configuration (handled by CorsConfig)
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+# Eureka client configuration
+eureka:
+  client:
+    # Register gateway with Eureka
+    register-with-eureka: true
+    fetch-registry: true
+    # point to your Eureka server
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    # Use IP address instead of hostname
+    prefer-ip-address: true
+    # Instance ID format
+    instance-id: ${spring.application.name}:${server.port}
