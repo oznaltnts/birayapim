@@ -13,6 +13,9 @@
     <artifactId>common-lib</artifactId>
     <packaging>jar</packaging>
 
+    <name>Common Library</name>
+    <description>Common Library for bira project</description>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>

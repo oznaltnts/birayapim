@@ -10,7 +10,7 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>birayapim Parent</name>
+    <name>Bira Yapim Parent</name>
     <description>Parent POM for bira yapim application</description>
 
     <properties>
