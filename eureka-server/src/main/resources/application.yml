@@ -1,0 +1,30 @@
+# Server configuration
+server:
+  port: 8761
+
+# Application name
+spring:
+  application:
+    name: eureka-server
+  # Security credentials (for clients to connect)
+  security:
+    user:
+      name: eureka
+      password: eureka123
+
+# Eureka server configuration
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # Disable self-registration for single server
+    register-with-eureka: false
+    fetch-registry: false
+    # Service URL with basic auth credentials
+    service-url:
+      defaultZone: http://eureka:eureka123@localhost:8761/eureka/
+  server:
+    # Disable self-preservation mode for development
+    enable-self-preservation: false
+    # Response cache update interval
+    response-cache-update-interval-ms: 3000
