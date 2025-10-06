@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .anyExchange().authenticated() // All other requests need auth
                 )
                 .httpBasic(Customizer.withDefaults()) // Enable basic authentication
-                .formLogin().disable();
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable);
 
         return http.build();
     }
